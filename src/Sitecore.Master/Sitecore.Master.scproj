@@ -67,44 +67,29 @@ The ItemNamingRules project provides conditions and actions for the rules engine
   </ItemGroup>
   <ItemGroup>
     <SitecoreItem Include="sitecore\system.item">
-      <Icon>/temp/IconCache/People/16x16/workstation1.png</Icon>
+      <Icon>/~/icon/People/16x16/workstation1.png.aspx</Icon>
       <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
       <ItemDeployment>DeployOnce</ItemDeployment>
     </SitecoreItem>
     <SitecoreItem Include="sitecore\system\Settings.item">
-      <Icon>/temp/IconCache/Applications/16x16/preferences.png</Icon>
+      <Icon>/~/icon/Applications/16x16/preferences.png.aspx</Icon>
       <ItemDeployment>DeployOnce</ItemDeployment>
       <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
     </SitecoreItem>
     <SitecoreItem Include="sitecore\system\Settings\Rules.item">
-      <Icon>/temp/IconCache/Core2/32x32/properties_h.png</Icon>
+      <Icon>/~/icon/Core2/32x32/properties_h.png.aspx</Icon>
       <ItemDeployment>DeployOnce</ItemDeployment>
       <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
     </SitecoreItem>
     <SitecoreItem Include="sitecore\system\Settings\Rules\Definitions.item">
-      <Icon>/temp/IconCache/People/32x32/wrench.png</Icon>
+      <Icon>/~/icon/People/32x32/wrench.png.aspx</Icon>
       <ItemDeployment>DeployOnce</ItemDeployment>
       <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
     </SitecoreItem>
     <SitecoreItem Include="sitecore\system\Settings\Rules\Definitions\Elements.item">
-      <Icon>/temp/IconCache/Applications/32x32/folder_green.png</Icon>
+      <Icon>/~/icon/Applications/32x32/folder_green.png.aspx</Icon>
       <ItemDeployment>DeployOnce</ItemDeployment>
       <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
-    </SitecoreItem>
-    <SitecoreItem Include="sitecore\system\Settings\Rules\Definitions\Elements\Custom.item">
-      <Icon>/temp/IconCache/core2/32x32/flow_chart.png</Icon>
-      <ItemDeployment>DeployOnce</ItemDeployment>
-      <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
-    </SitecoreItem>
-    <SitecoreItem Include="sitecore\system\Settings\Rules\Definitions\Elements\Custom\Has Layout Details For Any Device.item">
-      <Icon>/temp/IconCache/Software/32x32/shape_rhomb.png</Icon>
-      <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
-      <ItemDeployment>AlwaysUpdate</ItemDeployment>
-    </SitecoreItem>
-    <SitecoreItem Include="sitecore\system\Settings\Rules\Definitions\Elements\Custom\Has Layout Details For Default Device.item">
-      <Icon>/temp/IconCache/Software/32x32/shape_rhomb.png</Icon>
-      <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
-      <ItemDeployment>AlwaysUpdate</ItemDeployment>
     </SitecoreItem>
     <SitecoreItem Include="sitecore\system\Settings\Rules\Definitions\Elements\Item Information.item">
       <Icon>/temp/IconCache/core2/32x32/flow_chart.png</Icon>

@@ -61,18 +61,7 @@
     <Compile Include="Actions\Lowercase.cs" />
     <Compile Include="Actions\RenamingAction.cs" />
     <Compile Include="Actions\ReplaceInvalidCharacters.cs" />
-    <Compile Include="Conditions\HasLayoutDetailsForAnyDevice.cs" />
-    <Compile Include="Conditions\HasLayoutDetailsForDefaultDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="web.config" />
-    <None Include="web.Debug.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
-    <None Include="web.Release.config">
-      <DependentUpon>web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
