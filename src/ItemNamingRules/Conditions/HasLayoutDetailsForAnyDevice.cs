@@ -13,37 +13,33 @@
 // <url>http://marketplace.sitecore.net/en/Modules/Item_Naming_rules.aspx</url>
 //-----------------------------------------------------------------------------------
 
+using Sitecore.Rules;
+using Sitecore.Rules.Conditions;
+using System.Linq;
+
 namespace Sitecore.Sharedsource.ItemNamingRules.Conditions
 {
-    using Sitecore.Rules;
-    using Sitecore.Rules.Conditions;
-
     /// <summary>
-    /// Rules engine condition to determine if an item has 
-    /// layout details for any device.
+    ///     Rules engine condition to determine if an item has
+    ///     layout details for any device.
     /// </summary>
     /// <typeparam name="T">Type providing rule context.</typeparam>
     public class HasLayoutDetailsForAnyDevice<T> : OperatorCondition<T>
-      where T : RuleContext
+        where T : RuleContext
     {
         /// <summary>
-        /// Condition implementation.
+        ///     Condition implementation.
         /// </summary>
         /// <param name="ruleContext">The rule context.</param>
-        /// <returns>True if the item has layout details for any device, 
-        /// otherwise False.</returns>
+        /// <returns>
+        ///     True if the item has layout details for any device,
+        ///     otherwise False.
+        /// </returns>
         protected override bool Execute(T ruleContext)
         {
-            foreach (Sitecore.Data.Items.DeviceItem compare
-              in ruleContext.Item.Database.Resources.Devices.GetAll())
-            {
-                if (ruleContext.Item.Visualization.GetLayout(compare) != null)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return
+                ruleContext.Item.Database.Resources.Devices.GetAll()
+                           .Any(compare => ruleContext.Item.Visualization.GetLayout(compare) != null);
         }
     }
 }

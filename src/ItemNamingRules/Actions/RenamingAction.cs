@@ -11,23 +11,27 @@
 // <url>http://marketplace.sitecore.net/en/Modules/Item_Naming_rules.aspx</url>
 //-----------------------------------------------------------------------------------
 
+using Sitecore.Configuration;
+using Sitecore.Data.Events;
+using Sitecore.Data.Items;
+using Sitecore.Rules;
+using Sitecore.Rules.Actions;
+using Sitecore.SecurityModel;
+using System;
+using System.Linq;
+
 namespace Sitecore.Sharedsource.ItemNamingRules.Actions
 {
-    using System;
-    using Sitecore.Data.Items;
-    using Sitecore.Rules;
-    using Sitecore.Rules.Actions;
-
     /// <summary>
-    /// Base class for rules engine actions that rename items.
+    ///     Base class for rules engine actions that rename items.
     /// </summary>
     /// <typeparam name="T">Type providing rule context.</typeparam>
     public abstract class RenamingAction<T> : RuleAction<T>
-      where T : RuleContext
+        where T : RuleContext
     {
         /// <summary>
-        /// Rename the item, unless it is a standard values item 
-        /// or the start item for any of the managed Web sites.
+        ///     Rename the item, unless it is a standard values item
+        ///     or the start item for any of the managed Web sites.
         /// </summary>
         /// <param name="item">The item to rename.</param>
         /// <param name="newName">The new name for the item.</param>
@@ -38,19 +42,21 @@ namespace Sitecore.Sharedsource.ItemNamingRules.Actions
                 return;
             }
 
-            foreach (Sitecore.Web.SiteInfo site in Sitecore.Configuration.Factory.GetSiteInfoList())
+            if (
+                Factory.GetSiteInfoList()
+                       .Any(
+                           site =>
+                           String.Compare(site.RootPath + site.StartItem, item.Paths.FullPath,
+                                          StringComparison.OrdinalIgnoreCase) == 0))
             {
-                if (String.Compare(site.RootPath + site.StartItem, item.Paths.FullPath, true) == 0)
-                {
-                    return;
-                }
+                return;
             }
 
-            using (new Sitecore.SecurityModel.SecurityDisabler())
+            using (new SecurityDisabler())
             {
-                using (new Sitecore.Data.Items.EditContext(item))
+                using (new EditContext(item))
                 {
-                    using (new Sitecore.Data.Events.EventDisabler())
+                    using (new EventDisabler())
                     {
                         item.Name = newName;
                     }

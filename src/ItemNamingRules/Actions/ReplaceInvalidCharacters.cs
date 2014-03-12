@@ -13,90 +13,84 @@
 // <url>http://marketplace.sitecore.net/en/Modules/Item_Naming_rules.aspx</url>
 //-----------------------------------------------------------------------------------
 
+using Sitecore.Diagnostics;
+using Sitecore.Rules;
+using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
+
 namespace Sitecore.Sharedsource.ItemNamingRules.Actions
 {
-    using System;
-    using System.Text.RegularExpressions;
-    using Sitecore.Rules;
-
     /// <summary>
-    /// Rules engine action to replace invalid characters in item names.
+    ///     Rules engine action to replace invalid characters in item names.
     /// </summary>
     /// <typeparam name="T">Type providing rule context.</typeparam>
     public class ReplaceInvalidCharacters<T> : RenamingAction<T>
-      where T : RuleContext
+        where T : RuleContext
     {
         /// <summary>
-        /// Gets or sets the string with which to replace invalid characters
-        /// in item names.
+        ///     Gets or sets the string with which to replace invalid characters
+        ///     in item names.
         /// </summary>
-        public string ReplaceWith
-        {
-            get;
-            set;
-        }
+        public string ReplaceWith { get; set; }
 
         /// <summary>
-        /// Gets or sets the regular expression used to validate each character
-        /// in item names.
+        ///     Gets or sets the regular expression used to validate each character
+        ///     in item names.
         /// </summary>
-        public string MatchPattern
-        {
-            get;
-            set;
-        }
+        public string MatchPattern { get; set; }
 
         /// <summary>
-        /// Action implementation.
+        ///     Action implementation.
         /// </summary>
         /// <param name="ruleContext">The rule context.</param>
         public override void Apply(T ruleContext)
         {
-            Sitecore.Diagnostics.Assert.IsNotNull(this.ReplaceWith, "ReplaceWith");
-            Regex patternMatcher = new Regex(this.MatchPattern);
+            Assert.IsNotNull(ReplaceWith, "ReplaceWith");
+            var patternMatcher = new Regex(MatchPattern);
             string newName = String.Empty;
 
             foreach (char c in ruleContext.Item.Name)
             {
-                if (patternMatcher.IsMatch(c.ToString()))
+                if (patternMatcher.IsMatch(c.ToString(CultureInfo.InvariantCulture)))
                 {
                     newName += c;
                 }
-                else if (!String.IsNullOrEmpty(this.ReplaceWith))
+                else if (!String.IsNullOrEmpty(ReplaceWith))
                 {
-                    newName += this.ReplaceWith;
+                    newName += ReplaceWith;
                 }
             }
 
-            while (newName.StartsWith(this.ReplaceWith))
+            while (newName.StartsWith(ReplaceWith))
             {
                 newName = newName.Substring(
-                  this.ReplaceWith.Length,
-                  newName.Length - this.ReplaceWith.Length);
+                    ReplaceWith.Length,
+                    newName.Length - ReplaceWith.Length);
             }
 
-            while (newName.EndsWith(this.ReplaceWith))
+            while (newName.EndsWith(ReplaceWith))
             {
                 newName = newName.Substring(
-                  0,
-                  newName.Length - this.ReplaceWith.Length);
+                    0,
+                    newName.Length - ReplaceWith.Length);
             }
 
-            string sequence = this.ReplaceWith + this.ReplaceWith;
+            string sequence = ReplaceWith + ReplaceWith;
 
             while (newName.Contains(sequence))
             {
-                newName = newName.Replace(sequence, this.ReplaceWith);
+                newName = newName.Replace(sequence, ReplaceWith);
             }
 
             if (String.IsNullOrEmpty(newName))
             {
-                newName = this.ReplaceWith;
+                newName = ReplaceWith;
             }
 
             if (ruleContext.Item.Name != newName)
             {
-                this.RenameItem(ruleContext.Item, newName);
+                RenameItem(ruleContext.Item, newName);
             }
         }
     }

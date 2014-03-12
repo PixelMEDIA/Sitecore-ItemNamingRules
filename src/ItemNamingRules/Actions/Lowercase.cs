@@ -11,19 +11,19 @@
 // <url>http://marketplace.sitecore.net/en/Modules/Item_Naming_rules.aspx</url>
 //-----------------------------------------------------------------------------------
 
+using Sitecore.Rules;
+
 namespace Sitecore.Sharedsource.ItemNamingRules.Actions
 {
-    using Sitecore.Rules;
-
     /// <summary>
-    /// Rules engine action to lowercase item names.
+    ///     Rules engine action to lowercase item names.
     /// </summary>
     /// <typeparam name="T">Type providing rule context.</typeparam>
     public class Lowercase<T> : RenamingAction<T>
-      where T : RuleContext
+        where T : RuleContext
     {
         /// <summary>
-        /// Action implementation.
+        ///     Action implementation.
         /// </summary>
         /// <param name="ruleContext">The rule context.</param>
         public override void Apply(T ruleContext)
@@ -32,7 +32,7 @@ namespace Sitecore.Sharedsource.ItemNamingRules.Actions
 
             if (ruleContext.Item.Name != newName)
             {
-                this.RenameItem(ruleContext.Item, newName);
+                RenameItem(ruleContext.Item, newName);
             }
         }
     }

@@ -11,39 +11,35 @@
 // <url>http://marketplace.sitecore.net/en/Modules/Item_Naming_rules.aspx</url>
 //-----------------------------------------------------------------------------------
 
+using Sitecore.Data.Items;
+using Sitecore.Rules;
+using System;
+
 namespace Sitecore.Sharedsource.ItemNamingRules.Actions
 {
-    using System;
-    using Sitecore.Rules;
-
     /// <summary>
-    /// Rules engine action to ensure unique item names under a parent
-    /// by replacing trailing characters with a date/time stamp.
+    ///     Rules engine action to ensure unique item names under a parent
+    ///     by replacing trailing characters with a date/time stamp.
     /// </summary>
     /// <typeparam name="T">Type providing rule context.</typeparam>
-    public class EnsureUnique<T> : RenamingAction<T>
-      where T : RuleContext
+    public class EnsureUnique<T> : RenamingAction<T> where T : RuleContext
     {
         /// <summary>
-        /// Gets or sets the maximum allowed length for item names.
+        ///     Gets or sets the maximum allowed length for item names.
         /// </summary>
-        public int MaxLength
-        {
-            get;
-            set;
-        }
+        public int MaxLength { get; set; }
 
         /// <summary>
-        /// Action implementation.
+        ///     Action implementation.
         /// </summary>
         /// <param name="ruleContext">The rule context.</param>
         public override void Apply(T ruleContext)
         {
-            if (ruleContext.Item.Name.Length > this.MaxLength)
+            if (ruleContext.Item.Name.Length > MaxLength)
             {
-                this.RenameItem(
-                  ruleContext.Item,
-                  ruleContext.Item.Name.Substring(0, this.MaxLength));
+                RenameItem(
+                    ruleContext.Item,
+                    ruleContext.Item.Name.Substring(0, MaxLength));
             }
 
             bool unique;
@@ -52,32 +48,30 @@ namespace Sitecore.Sharedsource.ItemNamingRules.Actions
             {
                 unique = true;
 
-                foreach (Sitecore.Data.Items.Item child
-                  in ruleContext.Item.Parent.Children)
+                foreach (Item child in ruleContext.Item.Parent.Children)
                 {
                     if (child.ID.Equals(ruleContext.Item.ID)
-                      || !child.Key.Equals(ruleContext.Item.Key))
+                        || !child.Key.Equals(ruleContext.Item.Key))
                     {
                         continue;
                     }
 
                     unique = false;
-                    string strDateTime = Sitecore.DateUtil.ToIsoDate(
-                      DateTime.Now).ToLower();
+                    string strDateTime = DateUtil.ToIsoDate(
+                        DateTime.Now).ToLower();
                     string newName = ruleContext.Item.Name + strDateTime;
 
-                    if (this.MaxLength > 0 && newName.Length > this.MaxLength)
+                    if (MaxLength > 0 && newName.Length > MaxLength)
                     {
                         newName = newName.Substring(
-                          0,
-                          this.MaxLength - (strDateTime.Length + 1)) + strDateTime;
+                            0,
+                            MaxLength - (strDateTime.Length + 1)) + strDateTime;
                     }
 
-                    this.RenameItem(ruleContext.Item, newName);
+                    RenameItem(ruleContext.Item, newName);
                     break;
                 }
-            }
-            while (!unique);
+            } while (!unique);
         }
     }
 }
